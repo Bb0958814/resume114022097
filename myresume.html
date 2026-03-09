@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>個人履歷 - 許綺軒</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#f4f6f9;
+    color:#333;
+}
+
+header{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    text-align:center;
+    padding:40px 20px;
+}
+
+header h1{
+    margin:10px 0;
+}
+
+/* 個人照片 */
+.profile-img{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid white;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:auto;
+}
+
+section{
+    background:white;
+    margin-top:20px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    border-left:5px solid #667eea;
+    padding-left:10px;
+}
+
+.skill{
+    margin:10px 0;
+}
+
+.skill-bar{
+    height:10px;
+    background:#ddd;
+    border-radius:5px;
+}
+
+.skill-fill{
+    height:10px;
+    background:#667eea;
+    border-radius:5px;
+    width:0;
+}
+
+button{
+    margin-top:15px;
+    padding:10px 15px;
+    border:none;
+    background:#667eea;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#5563d6;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<!-- 個人照片 -->
+<img src="profile.jpg" class="profile-img">
+
+<h1>許綺軒</h1>
+<p>亞洲大學學生 | 學號 114022097</p>
+
+</header>
+
+<div class="container">
+
+<section>
+<h2>基本資料</h2>
+<p><b>姓名：</b>許綺軒</p>
+<p><b>學校：</b>亞洲大學</p>
+<p><b>科系：</b>人工智慧學系</p>
+<p><b>學號：</b>114022097</p>
+<p><b>Email：</b>114022097@asia.edu.tw</p>
+</section>
+
+<section>
+<h2>自我介紹</h2>
+<p>
+我是亞洲大學人工智慧學系的學生，對人工智慧與科技應用充滿興趣。
+目前持續學習程式設計、資料分析與AI相關技術，希望未來能在科技產業
+發展並參與創新專案。
+</p>
+</section>
+
+<section>
+<h2>技能</h2>
+
+<div class="skill">
+Python
+<div class="skill-bar">
+<div class="skill-fill" data-width="80%"></div>
+</div>
+</div>
+
+<div class="skill">
+HTML / CSS
+<div class="skill-bar">
+<div class="skill-fill" data-width="70%"></div>
+</div>
+</div>
+
+<div class="skill">
+JavaScript
+<div class="skill-bar">
+<div class="skill-fill" data-width="60%"></div>
+</div>
+</div>
+
+<div class="skill">
+English
+<div class="skill-bar">
+<div class="skill-fill" data-width="50%"></div>
+</div>
+</div>
+
+<button onclick="animateSkills()">顯示技能熟練度</button>
+
+</section>
+
+<section>
+<h2>作品或經驗</h2>
+<ul>
+<li>海報設計作品</li>
+<li>AI生成圖像設計</li>
+<li>音訊剪輯與影片編輯</li>
+<li>動畫製作練習</li>
+</ul>
+</section>
+
+<section>
+<h2>未來目標</h2>
+<p>
+持續精進人工智慧與程式設計能力，未來希望能參與AI研究或科技公司實習，
+並發展自己的技術作品集。
+</p>
+</section>
+
+</div>
+
+<footer>
+© 2026 許綺軒 個人履歷網站
+</footer>
+
+<script>
+
+function animateSkills(){
+    const skills=document.querySelectorAll(".skill-fill");
+
+    skills.forEach(skill=>{
+        let width=skill.getAttribute("data-width");
+        skill.style.width=width;
+    });
+
+}
+
+</script>
+
+</body>
+</html>
