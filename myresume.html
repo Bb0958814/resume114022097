@@ -228,16 +228,16 @@ function animateSkills(){
 <script>
   const audio = document.getElementById("bgm");
 
-  // 嘗試直接播放
-  audio.play().catch(() => {
-    // 若被擋，快速解除靜音再播放
-    audio.muted = true;
-    audio.play();
+// 頁面載入就開始播放（靜音）
+window.addEventListener("load", () => {
+    audio.play().catch(()=>{});
+});
 
-    setTimeout(() => {
-      audio.muted = false;
-    }, 100);
-  });
+// 使用者「滑鼠一動」就開聲音（幾乎無感）
+document.addEventListener("mousemove", () => {
+    audio.muted = false;
+}, { once: true });
+</script>
 </script>
         <!--音樂來源:Pixabay-->
 
