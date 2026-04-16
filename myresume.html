@@ -13,9 +13,10 @@ body{
     color:#333;
     position:relative;
     overflow-x:hidden;
+    min-height: 100vh;
 }
 
-/* 滑鼠漸變效果 */
+/* 光圈層：控制範圍縮小至 10 元硬幣大小 */
 body::before{
     content:"";
     position:fixed;
@@ -24,8 +25,9 @@ body::before{
     width:100%;
     height:100%;
     pointer-events:none;
-    background:radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.4), transparent 200px);
-    transition:background 0.1s;
+    background: var(--glow-bg, transparent);
+    transition: background 0.05s;
+    z-index: 999;
 }
 
 .container{
@@ -36,18 +38,19 @@ body::before{
     border-radius:12px;
     overflow:hidden;
     box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1;
 }
 
 .left{
     width:30%;
-    background:linear-gradient(180deg,#e6f4ef,#d4eee4); /* 薄淺蔥色 */
+    background:linear-gradient(180deg,#e6f4ef,#d4eee4);
     padding:30px 20px;
     text-align:center;
     position:relative;
     overflow:hidden;
 }
 
-/* 改成紺青色線條 */
 .left::before{
     content:"";
     position:absolute;
@@ -71,17 +74,6 @@ body::before{
     z-index:1;
 }
 
-.left::after{
-    content:"";
-    position:absolute;
-    bottom:-50px;
-    right:-50px;
-    width:150px;
-    height:150px;
-    border:2px solid rgba(15,76,129,0.3);
-    border-radius:50%;
-}
-
 .right{
     width:70%;
     padding:30px;
@@ -90,7 +82,6 @@ body::before{
 
 h1{ margin:15px 0 5px; }
 
-/* 標題＋按鈕排列 */
 .header-row{
     display:flex;
     justify-content:space-between;
@@ -125,6 +116,7 @@ h2{
     background:#0f4c81;
     border-radius:5px;
     width:0;
+    transition: width 1s ease-in-out;
 }
 
 button{
@@ -139,9 +131,6 @@ button{
 
 button:hover{ background:#0c3a63; }
 
-ul{ padding-left:20px; }
-
-/* 彈出視窗 */
 .modal{
     display:none;
     position:fixed;
@@ -152,6 +141,7 @@ ul{ padding-left:20px; }
     background:rgba(0,0,0,0.5);
     justify-content:center;
     align-items:center;
+    z-index: 1000;
 }
 
 .modal-content{
@@ -160,12 +150,6 @@ ul{ padding-left:20px; }
     border-radius:10px;
     width:300px;
     text-align:center;
-    animation:fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(-10px);} 
-    to{opacity:1; transform:translateY(0);} 
 }
 
 .close{
@@ -174,120 +158,89 @@ ul{ padding-left:20px; }
     font-size:20px;
 }
 
-
-/* 光圈拖尾 */
+/* 拖尾點同步縮小 */
 .trail-dot{
     position:fixed;
-    width:18px;
-    height:18px;
+    width:8px;
+    height:8px;
     border-radius:50%;
     pointer-events:none;
-    filter:blur(6px);
-    opacity:0.6;
+    filter:blur(2px);
+    opacity:0.5;
     transform:translate(-50%,-50%);
-    transition:opacity 0.4s ease, transform 0.4s ease;
+    z-index: 998;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
+    <div class="left">
+        <img src="images/我.jpg" class="profile-img">
+        <h1>許綺軒</h1>
+        <p>亞洲大學學生</p>
+        <p>學號 114022097</p>
 
-<div class="left">
-<img src="images/我.jpg" class="profile-img">
-<h1>許綺軒</h1>
-<p>亞洲大學學生</p>
-<p>學號 114022097</p>
+        <div class="section">
+            <h2>技能</h2>
+            <div class="skill">Python <div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div></div>
+            <div class="skill">HTML / CSS <div class="skill-bar"><div class="skill-fill" data-width="70%"></div></div></div>
+            <div class="skill">JavaScript <div class="skill-bar"><div class="skill-fill" data-width="60%"></div></div></div>
+            <div class="skill">English <div class="skill-bar"><div class="skill-fill" data-width="50%"></div></div></div>
+            <button onclick="animateSkills()">顯示技能</button>
+        </div>
+    </div>
 
-<div class="section">
-<h2>技能</h2>
+    <div class="right">
+        <div class="section">
+            <div class="header-row">
+                <h2>基本資料</h2>
+                <button onclick="openAbout()">關於我</button>
+            </div>
+            <p><b>姓名：</b>許綺軒</p>
+            <p><b>學校：</b>亞洲大學</p>
+            <p><b>科系：</b>人工智慧學系</p>
+            <p><b>Email：</b>114022097@live.asia.edu.tw</p>
+        </div>
 
-<div class="skill">Python
-<div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div>
+        <div class="section">
+            <h2>自我介紹</h2>
+            <p>我是亞洲大學人工智慧學系的學生，對人工智慧與科技應用充滿興趣。目前持續學習程式設計、資料分析與AI相關技術，希望未來能在科技產業發展。</p>
+        </div>
+
+        <div class="section">
+            <h2>作品或經驗</h2>
+            <ul>
+                <li>海報設計作品</li>
+                <li>AI生成圖像設計</li>
+                <li>音訊剪輯與影片編輯</li>
+                <li>動畫製作練習</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>興趣與愛好</h2>
+            <button onclick="openModal()">查看我的興趣</button>
+        </div>
+    </div>
 </div>
 
-<div class="skill">HTML / CSS
-<div class="skill-bar"><div class="skill-fill" data-width="70%"></div></div>
-</div>
-
-<div class="skill">JavaScript
-<div class="skill-bar"><div class="skill-fill" data-width="60%"></div></div>
-</div>
-
-<div class="skill">English
-<div class="skill-bar"><div class="skill-fill" data-width="50%"></div></div>
-</div>
-
-<button onclick="animateSkills()">顯示技能</button>
-
-</div>
-</div>
-
-<div class="right">
-
-<div class="section">
-<div class="header-row">
-<h2>基本資料</h2>
-<button onclick="openAbout()">關於我</button>
-</div>
-<p><b>姓名：</b>許綺軒</p>
-<p><b>學校：</b>亞洲大學</p>
-<p><b>科系：</b>人工智慧學系</p>
-<p><b>Email：</b>114022097@live.asia.edu.tw</p>
-</div>
-
-<div class="section">
-<h2>自我介紹</h2>
-<p>
-我是亞洲大學人工智慧學系的學生，對人工智慧與科技應用充滿興趣。
-目前持續學習程式設計、資料分析與AI相關技術，希望未來能在科技產業發展。
-</p>
-</div>
-
-<div class="section">
-<h2>作品或經驗</h2>
-<ul>
-<li>海報設計作品</li>
-<li>AI生成圖像設計</li>
-<li>音訊剪輯與影片編輯</li>
-<li>動畫製作練習</li>
-</ul>
-</div>
-
-<div class="section">
-<h2>未來目標</h2>
-<p>
-持續精進人工智慧與程式設計能力，未來希望能參與AI研究或科技公司實習。
-</p>
-</div>
-
-<div class="section">
-<h2>興趣與愛好</h2>
-<button onclick="openModal()">查看我的興趣</button>
-</div>
-
-</div>
-</div>
-
-<!-- 興趣視窗 -->
 <div id="hobbyModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h3>興趣與愛好</h3>
-    <p><b>興趣：</b>吃甜點、睡覺</p>
-    <p><b>愛好：</b>看漫畫、動漫、小說</p>
-  </div>
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>興趣與愛好</h3>
+        <p><b>興趣：</b>吃甜點、睡覺</p>
+        <p><b>愛好：</b>看漫畫、動漫、小說</p>
+    </div>
 </div>
 
-<!-- 關於我視窗 -->
 <div id="aboutModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeAbout()">&times;</span>
-    <h3>關於我</h3>
-    <p>我是一位對AI與創意科技有高度興趣的學生，喜歡將技術與生活結合，打造有趣又實用的應用。</p>
-  </div>
+    <div class="modal-content">
+        <span class="close" onclick="closeAbout()">&times;</span>
+        <h3>關於我</h3>
+        <p>我是一位對AI與創意科技有高度興趣的學生，喜歡將技術與生活結合，打造有趣又實用的應用。</p>
+    </div>
 </div>
 
 <script>
@@ -298,30 +251,14 @@ function animateSkills(){
     });
 }
 
-function openModal(){
-    document.getElementById("hobbyModal").style.display="flex";
-}
-
-function closeModal(){
-    document.getElementById("hobbyModal").style.display="none";
-}
-
-function openAbout(){
-    document.getElementById("aboutModal").style.display="flex";
-}
-
-function closeAbout(){
-    document.getElementById("aboutModal").style.display="none";
-}
+function openModal(){ document.getElementById("hobbyModal").style.display="flex"; }
+function closeModal(){ document.getElementById("hobbyModal").style.display="none"; }
+function openAbout(){ document.getElementById("aboutModal").style.display="flex"; }
+function closeAbout(){ document.getElementById("aboutModal").style.display="none"; }
 
 window.onclick = function(event) {
-    const hobby = document.getElementById("hobbyModal");
-    const about = document.getElementById("aboutModal");
-    if (event.target == hobby) hobby.style.display = "none";
-    if (event.target == about) about.style.display = "none";
+    if (event.target.className === 'modal') event.target.style.display = "none";
 }
-// 拖尾陣列
-const trails = [];
 
 function createTrail(x, y, color){
     const dot = document.createElement("div");
@@ -330,40 +267,35 @@ function createTrail(x, y, color){
     dot.style.top = y + "px";
     dot.style.background = color;
     document.body.appendChild(dot);
-
-    trails.push(dot);
-
-    // 淡出
     setTimeout(()=>{
         dot.style.opacity = "0";
-        dot.style.transform = "translate(-50%,-50%) scale(0.5)";
-    }, 10);
-
-    // 移除
-    setTimeout(()=>{
-        dot.remove();
-    }, 400);
+        dot.style.transform = "translate(-50%,-50%) scale(0.1)";
+    }, 40);
+    setTimeout(()=> dot.remove(), 400);
 }
 
-// 滑鼠移動 + 顏色判斷 + 拖尾
 document.addEventListener("mousemove", (e)=>{
-    document.body.style.setProperty("--x", e.clientX + "px");
-    document.body.style.setProperty("--y", e.clientY + "px");
-
+    const x = e.clientX;
+    const y = e.clientY;
     const mid = window.innerWidth * 0.3;
-    let glowColor;
+    
+    let coreColor, outerColor;
 
-    if(e.clientX < mid){
-        glowColor = "rgba(255,255,255,0.6)"; // 左：白光
-    }else{
-        glowColor = "rgba(255,244,214,0.7)"; // 右：梔子色
+    if(x < mid){
+        // 左邊：淺納戶色核心
+        coreColor = "rgba(131, 175, 155, 0.9)"; 
+        outerColor = "rgba(255, 255, 255, 0.6)";
+    } else {
+        // 右邊：淺梔子色核心
+        coreColor = "rgba(247, 232, 170, 0.9)";
+        outerColor = "rgba(255, 255, 255, 0.6)";
     }
 
-    // 主光圈
-    document.body.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, ${glowColor}, transparent 200px), #dbeee6`;
+    // 將半徑縮小到 15px-20px 左右，模擬 10 元硬幣大小
+    const glowGradient = `radial-gradient(circle 18px at ${x}px ${y}px, ${coreColor} 0%, ${outerColor} 60%, transparent 100%)`;
+    document.body.style.setProperty("--glow-bg", glowGradient);
 
-    // 拖尾
-    createTrail(e.clientX, e.clientY, glowColor);
+    createTrail(x, y, coreColor);
 });
 </script>
 
