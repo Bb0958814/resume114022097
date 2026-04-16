@@ -27,20 +27,45 @@ body{
     z-index: 1;
 }
 
-/* --- 左側欄位設定 --- */
+/* --- 欄位基礎設定 --- */
 .left{
     width:30%;
-    background:#e6f4ef; /* 初始薄淺蔥色 */
+    background:#e6f4ef;
     padding:30px 20px;
     text-align:center;
     position:relative;
-    overflow:hidden;
-    transition: background 0.4s ease; /* 平滑變色 */
 }
 
-/* 滑鼠移入左側：變為淺納戶色 */
-.left:hover {
-    background: #83af9b; 
+.right{
+    width:70%;
+    padding:30px;
+    background:#f5f1e6;
+}
+
+/* --- 文字區塊變色邏輯 --- */
+.section {
+    margin-bottom: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    transition: background 0.4s ease, transform 0.3s ease; /* 平滑過渡 */
+}
+
+/* 左側文字塊碰到後變：淺納戶色 */
+.left .section:hover {
+    background: #83af9b;
+    color: #fff; /* 變色後文字改白色較清晰 */
+}
+
+/* 右側文字塊碰到後變：淺梔子色 */
+.right .section:hover {
+    background: #f7e8aa;
+}
+
+/* 修正標題底線顏色，確保變色後依然好看 */
+h2{
+    border-left:5px solid #0f4c81;
+    padding-left:10px;
+    margin-top: 0;
 }
 
 .left::before{
@@ -52,44 +77,12 @@ body{
     height:100%;
     background:repeating-linear-gradient(
         45deg,
-        rgba(15,76,129,0.1),
-        rgba(15,76,129,0.1) 2px,
+        rgba(15,76,129,0.05),
+        rgba(15,76,129,0.05) 2px,
         transparent 2px,
         transparent 10px
     );
     pointer-events:none;
-    z-index:0;
-}
-
-.left > *{
-    position:relative;
-    z-index:1;
-}
-
-/* --- 右側欄位設定 --- */
-.right{
-    width:70%;
-    padding:30px;
-    background:#f5f1e6; /* 初始淺黃色 */
-    transition: background 0.4s ease; /* 平滑變色 */
-}
-
-/* 滑鼠移入右側：變為淺梔子色 */
-.right:hover {
-    background: #f7e8aa;
-}
-
-h1{ margin:15px 0 5px; }
-
-.header-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-h2{
-    border-left:5px solid #0f4c81;
-    padding-left:10px;
 }
 
 .profile-img{
@@ -98,15 +91,14 @@ h2{
     border-radius:50%;
     object-fit:cover;
     border:4px solid white;
+    margin-bottom: 10px;
 }
-
-.section{ margin-bottom:25px; }
 
 .skill{ margin:10px 0; text-align:left; }
 
 .skill-bar{
     height:8px;
-    background:#ccc;
+    background:rgba(0,0,0,0.1);
     border-radius:5px;
 }
 
@@ -149,6 +141,7 @@ button:hover{ background:#0c3a63; }
     border-radius:10px;
     width:300px;
     text-align:center;
+    color: #333; /* 確保彈窗文字顏色不受背景影響 */
 }
 
 .close{
@@ -230,7 +223,6 @@ button:hover{ background:#0c3a63; }
 </div>
 
 <script>
-// 技能條動畫
 function animateSkills(){
     const skills=document.querySelectorAll(".skill-fill");
     skills.forEach(skill=>{
@@ -238,7 +230,6 @@ function animateSkills(){
     });
 }
 
-// 彈出視窗控制
 function openModal(){ document.getElementById("hobbyModal").style.display="flex"; }
 function closeModal(){ document.getElementById("hobbyModal").style.display="none"; }
 function openAbout(){ document.getElementById("aboutModal").style.display="flex"; }
