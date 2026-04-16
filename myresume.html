@@ -47,13 +47,13 @@ body{
     margin-bottom: 25px;
     padding: 15px;
     border-radius: 8px;
-    transition: background 0.4s ease, transform 0.3s ease; /* 平滑過渡 */
+    transition: background 0.4s ease, transform 0.3s ease;
 }
 
 /* 左側文字塊碰到後變：淺納戶色 */
 .left .section:hover {
     background: #83af9b;
-    color: #fff; /* 變色後文字改白色較清晰 */
+    color: #fff;
 }
 
 /* 右側文字塊碰到後變：淺梔子色 */
@@ -61,7 +61,6 @@ body{
     background: #f7e8aa;
 }
 
-/* 修正標題底線顏色，確保變色後依然好看 */
 h2{
     border-left:5px solid #0f4c81;
     padding-left:10px;
@@ -137,17 +136,30 @@ button:hover{ background:#0c3a63; }
 
 .modal-content{
     background:white;
-    padding:20px 30px;
+    padding:20px;
     border-radius:10px;
-    width:300px;
+    width:auto;
+    max-width: 80%;
     text-align:center;
-    color: #333; /* 確保彈窗文字顏色不受背景影響 */
+    position: relative;
+}
+
+.about-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
 }
 
 .close{
-    float:right;
+    position: absolute;
+    right: 15px;
+    top: 10px;
     cursor:pointer;
-    font-size:20px;
+    font-size:24px;
+    color: #333;
+    z-index: 1001;
 }
 </style>
 </head>
@@ -199,26 +211,16 @@ button:hover{ background:#0c3a63; }
         </div>
 
         <div class="section">
-            <h2>興趣與愛好</h2>
-            <button onclick="openModal()">查看我的興趣</button>
+            <h2>未來目標</h2>
+            <p>持續提升人工智慧與程式設計能力，加強資料結構與演算法等基礎，並透過專案實作累積經驗，希望未來能有機會參與AI相關研究或到科技公司實習，把學到的東西實際應用出來。</p>
         </div>
-    </div>
-</div>
-
-<div id="hobbyModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>興趣與愛好</h3>
-        <p><b>興趣：</b>吃甜點、睡覺</p>
-        <p><b>愛好：</b>看漫畫、動漫、小說</p>
     </div>
 </div>
 
 <div id="aboutModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeAbout()">&times;</span>
-        <h3>關於我</h3>
-        <p>我是一位對AI與創意科技有高度興趣的學生，喜歡將技術與生活結合，打造有趣又實用的應用。</p>
+        <img src="images2/關於我.jpg" alt="每日精神狀況" class="about-img">
     </div>
 </div>
 
@@ -230,8 +232,6 @@ function animateSkills(){
     });
 }
 
-function openModal(){ document.getElementById("hobbyModal").style.display="flex"; }
-function closeModal(){ document.getElementById("hobbyModal").style.display="none"; }
 function openAbout(){ document.getElementById("aboutModal").style.display="flex"; }
 function closeAbout(){ document.getElementById("aboutModal").style.display="none"; }
 
