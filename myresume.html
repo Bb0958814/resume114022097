@@ -6,13 +6,26 @@
 <title>個人履歷 - 許綺軒</title>
 
 <style>
-
 body{
     font-family: Arial, sans-serif;
     margin:0;
-    background:url("images/resume-bg.png") no-repeat center center fixed;
-    background-size:cover;
+    background:#dbeee6;
     color:#333;
+    position:relative;
+    overflow-x:hidden;
+}
+
+/* 滑鼠漸變效果 */
+body::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    background:radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.4), transparent 200px);
+    transition:background 0.1s;
 }
 
 .container{
@@ -27,14 +40,14 @@ body{
 
 .left{
     width:30%;
-    background:linear-gradient(180deg,#eaeaea,#dcdcdc);
+    background:linear-gradient(180deg,#e6f4ef,#d4eee4); /* 薄淺蔥色 */
     padding:30px 20px;
     text-align:center;
     position:relative;
     overflow:hidden;
 }
 
-/* 科技感裝飾線條 */
+/* 改成紺青色線條 */
 .left::before{
     content:"";
     position:absolute;
@@ -44,8 +57,8 @@ body{
     height:100%;
     background:repeating-linear-gradient(
         45deg,
-        rgba(102,126,234,0.1),
-        rgba(102,126,234,0.1) 2px,
+        rgba(15,76,129,0.15),
+        rgba(15,76,129,0.15) 2px,
         transparent 2px,
         transparent 10px
     );
@@ -65,7 +78,7 @@ body{
     right:-50px;
     width:150px;
     height:150px;
-    border:2px solid rgba(102,126,234,0.3);
+    border:2px solid rgba(15,76,129,0.3);
     border-radius:50%;
 }
 
@@ -75,12 +88,17 @@ body{
     background:#f5f1e6;
 }
 
-h1{
-    margin:15px 0 5px;
+h1{ margin:15px 0 5px; }
+
+/* 標題＋按鈕排列 */
+.header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 h2{
-    border-left:5px solid #667eea;
+    border-left:5px solid #0f4c81;
     padding-left:10px;
 }
 
@@ -92,14 +110,9 @@ h2{
     border:4px solid white;
 }
 
-.section{
-    margin-bottom:25px;
-}
+.section{ margin-bottom:25px; }
 
-.skill{
-    margin:10px 0;
-    text-align:left;
-}
+.skill{ margin:10px 0; text-align:left; }
 
 .skill-bar{
     height:8px;
@@ -109,27 +122,70 @@ h2{
 
 .skill-fill{
     height:8px;
-    background:#667eea;
+    background:#0f4c81;
     border-radius:5px;
     width:0;
 }
 
 button{
-    margin-top:15px;
-    padding:8px 12px;
+    margin-top:10px;
+    padding:6px 10px;
     border:none;
-    background:#667eea;
+    background:#0f4c81;
     color:white;
     border-radius:5px;
     cursor:pointer;
 }
 
-button:hover{
-    background:#5563d6;
+button:hover{ background:#0c3a63; }
+
+ul{ padding-left:20px; }
+
+/* 彈出視窗 */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
 }
 
-ul{
-    padding-left:20px;
+.modal-content{
+    background:white;
+    padding:20px 30px;
+    border-radius:10px;
+    width:300px;
+    text-align:center;
+    animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(-10px);} 
+    to{opacity:1; transform:translateY(0);} 
+}
+
+.close{
+    float:right;
+    cursor:pointer;
+    font-size:20px;
+}
+
+
+/* 光圈拖尾 */
+.trail-dot{
+    position:fixed;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    pointer-events:none;
+    filter:blur(6px);
+    opacity:0.6;
+    transform:translate(-50%,-50%);
+    transition:opacity 0.4s ease, transform 0.4s ease;
 }
 
 </style>
@@ -139,11 +195,8 @@ ul{
 
 <div class="container">
 
-<!-- 左側 -->
 <div class="left">
-
 <img src="images/我.jpg" class="profile-img">
-
 <h1>許綺軒</h1>
 <p>亞洲大學學生</p>
 <p>學號 114022097</p>
@@ -170,14 +223,15 @@ ul{
 <button onclick="animateSkills()">顯示技能</button>
 
 </div>
-
 </div>
 
-<!-- 右側 -->
 <div class="right">
 
 <div class="section">
+<div class="header-row">
 <h2>基本資料</h2>
+<button onclick="openAbout()">關於我</button>
+</div>
 <p><b>姓名：</b>許綺軒</p>
 <p><b>學校：</b>亞洲大學</p>
 <p><b>科系：</b>人工智慧學系</p>
@@ -209,8 +263,31 @@ ul{
 </p>
 </div>
 
+<div class="section">
+<h2>興趣與愛好</h2>
+<button onclick="openModal()">查看我的興趣</button>
 </div>
 
+</div>
+</div>
+
+<!-- 興趣視窗 -->
+<div id="hobbyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>興趣與愛好</h3>
+    <p><b>興趣：</b>吃甜點、睡覺</p>
+    <p><b>愛好：</b>看漫畫、動漫、小說</p>
+  </div>
+</div>
+
+<!-- 關於我視窗 -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAbout()">&times;</span>
+    <h3>關於我</h3>
+    <p>我是一位對AI與創意科技有高度興趣的學生，喜歡將技術與生活結合，打造有趣又實用的應用。</p>
+  </div>
 </div>
 
 <script>
@@ -220,26 +297,75 @@ function animateSkills(){
         skill.style.width=skill.getAttribute("data-width");
     });
 }
-</script>
-<audio id="bgm" autoplay loop playsinline>
-  <source src="audio/music.mp3" type="audio/mpeg">
-</audio>
 
-<script>
-  const audio = document.getElementById("bgm");
+function openModal(){
+    document.getElementById("hobbyModal").style.display="flex";
+}
 
-// 頁面載入就開始播放（靜音）
-window.addEventListener("load", () => {
-    audio.play().catch(()=>{});
+function closeModal(){
+    document.getElementById("hobbyModal").style.display="none";
+}
+
+function openAbout(){
+    document.getElementById("aboutModal").style.display="flex";
+}
+
+function closeAbout(){
+    document.getElementById("aboutModal").style.display="none";
+}
+
+window.onclick = function(event) {
+    const hobby = document.getElementById("hobbyModal");
+    const about = document.getElementById("aboutModal");
+    if (event.target == hobby) hobby.style.display = "none";
+    if (event.target == about) about.style.display = "none";
+}
+// 拖尾陣列
+const trails = [];
+
+function createTrail(x, y, color){
+    const dot = document.createElement("div");
+    dot.className = "trail-dot";
+    dot.style.left = x + "px";
+    dot.style.top = y + "px";
+    dot.style.background = color;
+    document.body.appendChild(dot);
+
+    trails.push(dot);
+
+    // 淡出
+    setTimeout(()=>{
+        dot.style.opacity = "0";
+        dot.style.transform = "translate(-50%,-50%) scale(0.5)";
+    }, 10);
+
+    // 移除
+    setTimeout(()=>{
+        dot.remove();
+    }, 400);
+}
+
+// 滑鼠移動 + 顏色判斷 + 拖尾
+document.addEventListener("mousemove", (e)=>{
+    document.body.style.setProperty("--x", e.clientX + "px");
+    document.body.style.setProperty("--y", e.clientY + "px");
+
+    const mid = window.innerWidth * 0.3;
+    let glowColor;
+
+    if(e.clientX < mid){
+        glowColor = "rgba(255,255,255,0.6)"; // 左：白光
+    }else{
+        glowColor = "rgba(255,244,214,0.7)"; // 右：梔子色
+    }
+
+    // 主光圈
+    document.body.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, ${glowColor}, transparent 200px), #dbeee6`;
+
+    // 拖尾
+    createTrail(e.clientX, e.clientY, glowColor);
 });
-
-// 使用者「滑鼠一動」就開聲音（幾乎無感）
-document.addEventListener("mousemove", () => {
-    audio.muted = false;
-}, { once: true });
 </script>
-</script>
-        <!--音樂來源:Pixabay-->
 
 </body>
 </html>
