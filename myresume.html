@@ -121,6 +121,7 @@ button{
 
 button:hover{ background:#0c3a63; }
 
+/* 彈出視窗主背景 */
 .modal{
     display:none;
     position:fixed;
@@ -128,22 +129,33 @@ button:hover{ background:#0c3a63; }
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.5);
+    background:rgba(0,0,0,0.5); /* 柔和的半透明背景 */
     justify-content:center;
     align-items:center;
     z-index: 1000;
 }
 
+/* 彈出視窗內容區塊 - 這裡調整大小 */
 .modal-content{
     background:white;
-    padding:20px;
+    padding:15px; /* 縮小內邊距，讓畫面更緊湊 */
     border-radius:10px;
     width:auto;
-    max-width: 80%;
+    /* --- 核心修改：限制最大寬度為 400px，讓它看起來精緻小巧，不遮擋過多履歷 --- */
+    max-width: 400px; 
     text-align:center;
     position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* 加強陰影，提升層次感 */
 }
 
+/* 手機版小螢幕優化：如果螢幕太小，視窗自動放大到 90% 寬度 */
+@media (max-width: 600px) {
+    .modal-content {
+        max-width: 90%;
+    }
+}
+
+/* 圖片樣式 - 保持自動縮放以適應視窗 */
 .about-img {
     max-width: 100%;
     height: auto;
@@ -152,14 +164,27 @@ button:hover{ background:#0c3a63; }
     margin: 0 auto;
 }
 
+/* 關閉按鈕樣式調整 */
 .close{
     position: absolute;
-    right: 15px;
-    top: 10px;
+    right: 12px;
+    top: 8px;
     cursor:pointer;
-    font-size:24px;
-    color: #333;
+    font-size:22px;
+    color: #fff; /* 為了在圖片上清晰可見，改為白色 */
+    background: rgba(0,0,0,0.5); /* 加一層半透明背景，確保在任何顏色的圖片上都能被看見 */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content:center;
+    align-items:center;
     z-index: 1001;
+    transition: background 0.3s;
+}
+
+.close:hover {
+    background: rgba(0,0,0,0.8);
 }
 </style>
 </head>
@@ -235,6 +260,7 @@ function animateSkills(){
 function openAbout(){ document.getElementById("aboutModal").style.display="flex"; }
 function closeAbout(){ document.getElementById("aboutModal").style.display="none"; }
 
+// 點擊視窗外部背景可關閉視窗
 window.onclick = function(event) {
     if (event.target.className === 'modal') {
         event.target.style.display = "none";
