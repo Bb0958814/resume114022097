@@ -273,6 +273,36 @@ window.onclick = function(event) {
     }
 }
 </script>
+<script>
+  const audio = document.getElementById("bgm");
 
+  // 建立一個啟動音樂的函式
+  function startAudio() {
+    audio.muted = false; // 確保解除靜音
+    audio.play().then(() => {
+      // 播放成功後，移除這些監聽器，避免重複執行
+      console.log("背景音樂啟動成功！");
+      removeEventListeners();
+    }).catch(error => {
+      console.log("尚無法播放，等待互動中...");
+    });
+  }
+
+  function removeEventListeners() {
+    document.removeEventListener("click", startAudio);
+    document.removeEventListener("touchstart", startAudio);
+    document.removeEventListener("keydown", startAudio);
+    document.removeEventListener("mousemove", startAudio);
+  }
+
+  // 1. 嘗試直接播放 (如果使用者之前來過這網頁，有機會直接成功)
+  startAudio();
+
+  // 2. 監聽各種「輕微」的互動，一旦有動作就立刻發聲
+  document.addEventListener("click", startAudio);
+  document.addEventListener("touchstart", startAudio); // 手機觸碰
+  document.addEventListener("keydown", startAudio);    // 按下鍵盤
+  document.addEventListener("mousemove", startAudio);  // 滑鼠移動（部分瀏覽器支援）
+</script>
 </body>
 </html>
