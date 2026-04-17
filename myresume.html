@@ -273,36 +273,6 @@ window.onclick = function(event) {
     }
 }
 </script>
-<audio id="bgm" loop>
-  <source src="audio/music.mp3" type="audio/mpeg">
-</audio>
 
-<script>
-  // 建立播放函式
-  function startAudio() {
-    const audio = document.getElementById("bgm");
-    if (!audio) return;
-
-    audio.muted = false; // 確保非靜音
-    audio.play().then(() => {
-      console.log("背景音樂播放成功！");
-      // 成功後移除所有監聽器，避免重複執行
-      ["click", "touchstart", "keydown", "mousemove"].forEach(event => {
-        document.removeEventListener(event, startAudio);
-      });
-    }).catch(err => {
-      console.log("播放仍被阻擋，請點擊頁面：", err);
-    });
-  }
-
-  // 2. 監聽各種互動動作，只要使用者動一下就播放
-  document.addEventListener("click", startAudio);
-  document.addEventListener("touchstart", startAudio); // 手機觸碰
-  document.addEventListener("keydown", startAudio);    // 按下鍵盤
-  document.addEventListener("mousemove", startAudio);  // 滑鼠移動（部分瀏覽器支援）
-
-  // 嘗試直接播放（如果使用者之前來過這網頁且信任度高，有可能成功）
-  startAudio();
-</script>
 </body>
 </html>
