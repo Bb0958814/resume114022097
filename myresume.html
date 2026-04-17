@@ -6,190 +6,46 @@
 <title>個人履歷 - 許綺軒</title>
 
 <style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    background:#dbeee6;
-    color:#333;
-    overflow-x:hidden;
-    min-height: 100vh;
-}
+/* --- 原有基礎樣式 --- */
+body{ font-family: Arial, sans-serif; margin:0; background:#dbeee6; color:#333; overflow-x:hidden; min-height: 100vh; }
+.container{ display:flex; max-width:1000px; margin:40px auto; background:rgba(255,255,255,0.95); border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.2); position: relative; z-index: 1; }
+.left{ width:30%; background:#e6f4ef; padding:30px 20px; text-align:center; position:relative; }
+.right{ width:70%; padding:30px; background:#f5f1e6; }
+.section { margin-bottom: 25px; padding: 15px; border-radius: 8px; transition: background 0.4s ease; position: relative; z-index: 2; }
+.left .section:hover { background: #83af9b; color: #fff; }
+.right .section:hover { background: #f7e8aa; }
+h2{ border-left:5px solid #0f4c81; padding-left:10px; margin-top: 0; }
 
-.container{
-    display:flex;
-    max-width:1000px;
-    margin:40px auto;
-    background:rgba(255,255,255,0.95);
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
-    position: relative;
-    z-index: 1;
-}
-
-/* --- 欄位基礎設定 --- */
-.left{
-    width:30%;
-    background:#e6f4ef;
-    padding:30px 20px;
-    text-align:center;
-    position:relative;
-}
-
-.right{
-    width:70%;
-    padding:30px;
-    background:#f5f1e6;
-}
-
-/* --- 文字區塊變色邏輯 --- */
-.section {
-    margin-bottom: 25px;
-    padding: 15px;
-    border-radius: 8px;
-    transition: background 0.4s ease, transform 0.3s ease;
-    position: relative; /* 確保內容在背景紋理上方 */
-    z-index: 2;
-}
-
-/* 左側文字塊碰到後變：淺納戶色 */
-.left .section:hover {
-    background: #83af9b;
-    color: #fff;
-}
-
-/* 右側文字塊碰到後變：淺梔子色 */
-.right .section:hover {
-    background: #f7e8aa;
-}
-
-h2{
-    border-left:5px solid #0f4c81;
-    padding-left:10px;
-    margin-top: 0;
-}
-
-/* 修正：背景線條往後移 */
+/* 修正背景線條層級 */
 .left::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:repeating-linear-gradient(
-        45deg,
-        rgba(15,76,129,0.05),
-        rgba(15,76,129,0.05) 2px,
-        transparent 2px,
-        transparent 10px
-    );
-    pointer-events:none;
-    z-index: 0; /* 設為底層 */
+    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
+    background:repeating-linear-gradient(45deg, rgba(15,76,129,0.05), rgba(15,76,129,0.05) 2px, transparent 2px, transparent 10px);
+    pointer-events:none; z-index: 0;
 }
 
-.profile-img{
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    object-fit:cover;
-    border:4px solid white;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 2; /* 確保照片在紋理上方 */
-}
-
+.profile-img{ width:120px; height:120px; border-radius:50%; object-fit:cover; border:4px solid white; margin-bottom: 10px; position: relative; z-index: 2; }
 .skill{ margin:10px 0; text-align:left; }
+.skill-bar{ height:8px; background:rgba(0,0,0,0.1); border-radius:5px; }
+.skill-fill{ height:8px; background:#0f4c81; border-radius:5px; width:0; transition: width 1s ease-in-out; }
+button{ margin-top:10px; padding:6px 10px; border:none; background:#0f4c81; color:white; border-radius:5px; cursor:pointer; }
 
-.skill-bar{
-    height:8px;
-    background:rgba(0,0,0,0.1);
-    border-radius:5px;
-}
+/* 彈窗樣式 (通用) */
+.modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index: 1000; }
+.modal-content{ background:white; padding:15px; border-radius:10px; width:auto; max-width: 500px; text-align:center; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+.close{ position: absolute; right: 10px; top: 10px; cursor:pointer; font-size:22px; color: #333; width: 30px; height: 30px; display: flex; justify-content:center; align-items:center; z-index: 1001; }
 
-.skill-fill{
-    height:8px;
-    background:#0f4c81;
-    border-radius:5px;
-    width:0;
-    transition: width 1s ease-in-out;
-}
-
-button{
-    margin-top:10px;
-    padding:6px 10px;
-    border:none;
-    background:#0f4c81;
-    color:white;
-    border-radius:5px;
-    cursor:pointer;
-}
-
-button:hover{ background:#0c3a63; }
-
-.modal{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.5);
-    justify-content:center;
-    align-items:center;
-    z-index: 1000;
-}
-
-.modal-content{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    width:auto;
-    max-width: 400px; 
-    text-align:center;
-    position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-}
-
-@media (max-width: 600px) {
-    .modal-content {
-        max-width: 90%;
-    }
-}
-
-.about-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    display: block;
-    margin: 0 auto;
-}
-
-.close{
-    position: absolute;
-    right: 12px;
-    top: 8px;
-    cursor:pointer;
-    font-size:22px;
-    color: #fff;
-    background: rgba(0,0,0,0.5);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    z-index: 1001;
-    transition: background 0.3s;
-}
-
-.close:hover {
-    background: rgba(0,0,0,0.8);
-}
+/* --- 右下角懸浮按鈕樣式 --- */
+.floating-btns { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 1100; }
+.f-btn { width: 55px; height: 55px; border-radius: 50%; border: none; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; justify-content:center; align-items:center; transition: transform 0.2s; }
+.f-btn:hover { transform: scale(1.1); }
 </style>
 </head>
 
 <body>
+
+<audio id="bgm" loop>
+  <source src="audio/music.mp3" type="audio/mpeg">
+</audio>
 
 <div class="container">
     <div class="left">
@@ -226,46 +82,75 @@ button:hover{ background:#0c3a63; }
             <p><b>科系：</b>人工智慧學系</p>
             <p><b>Email：</b>114022097@live.asia.edu.tw</p>
         </div>
-
-        <div class="section">
-            <h2>自我介紹</h2>
-            <p>我是亞洲大學人工智慧學系的學生，對人工智慧與科技應用充滿興趣。目前持續學習程式設計、資料分析與AI相關技術，希望未來能在科技產業發展。</p>
-        </div>
-
-        <div class="section">
-            <h2>作品或經驗</h2>
-            <ul>
-                <li>海報設計作品</li>
-                <li>AI生成圖像設計</li>
-                <li>音訊剪輯與影片編輯</li>
-                <li>動畫製作練習</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>未來目標</h2>
-            <p>持續提升人工智慧與程式設計能力，加強資料結構與演算法等基礎，並透過專案實作累積經驗，希望未來能有機會參與AI相關研究或到科技公司實習，把學到的東西實際應用出來。</p>
-        </div>
+        <div class="section"><h2>自我介紹</h2><p>我是亞洲大學人工智慧學系的學生...</p></div>
+        <div class="section"><h2>作品或經驗</h2><ul><li>AI生成圖像設計</li><li>動畫製作練習</li></ul></div>
     </div>
+</div>
+
+<div class="floating-btns">
+    <button id="musicBtn" class="f-btn" style="background:#0f4c81;" onclick="toggleMusic()">🎵</button>
+    <button class="f-btn" style="background:#83af9b;" onclick="openFeedback()">✉️</button>
 </div>
 
 <div id="aboutModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeAbout()">&times;</span>
-        <img src="images2/關於我.jpg" alt="每日精神狀況" class="about-img">
+        <img src="images2/關於我.jpg" alt="關於我" class="about-img">
+    </div>
+</div>
+
+<div id="feedbackModal" class="modal">
+    <div class="modal-content" style="max-width: 500px; padding: 0; overflow: hidden;">
+        <span class="close" onclick="closeFeedback()">&times;</span>
+        <iframe 
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdwA6jEInN-lq8fU1_VpX1r0P0Z-uX0A/viewform?embedded=true" 
+            width="100%" 
+            height="500" 
+            frameborder="0">載入中…</iframe>
     </div>
 </div>
 
 <script>
+// --- 音樂播放/暫停邏輯 ---
+const audio = document.getElementById("bgm");
+const musicBtn = document.getElementById("musicBtn");
+let isPlaying = false;
+
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play().then(() => {
+            musicBtn.innerText = "🎵";
+            isPlaying = true;
+        }).catch(err => console.log("等待互動中"));
+    } else {
+        audio.pause();
+        musicBtn.innerText = "🔇";
+        isPlaying = false;
+    }
+}
+
+// 監聽互動，點擊網頁任何地方第一次時自動播放
+document.addEventListener("click", function firstPlay() {
+    if (!isPlaying) {
+        audio.play().then(() => {
+            isPlaying = true;
+            musicBtn.innerText = "🎵";
+        });
+    }
+    document.removeEventListener("click", firstPlay);
+}, { once: true });
+
+// --- 其他功能函式 ---
 function animateSkills(){
     const skills=document.querySelectorAll(".skill-fill");
-    skills.forEach(skill=>{
-        skill.style.width=skill.getAttribute("data-width");
-    });
+    skills.forEach(skill=>{ skill.style.width=skill.getAttribute("data-width"); });
 }
 
 function openAbout(){ document.getElementById("aboutModal").style.display="flex"; }
 function closeAbout(){ document.getElementById("aboutModal").style.display="none"; }
+
+function openFeedback(){ document.getElementById("feedbackModal").style.display="flex"; }
+function closeFeedback(){ document.getElementById("feedbackModal").style.display="none"; }
 
 window.onclick = function(event) {
     if (event.target.className === 'modal') {
@@ -273,36 +158,6 @@ window.onclick = function(event) {
     }
 }
 </script>
-<audio id="bgm" loop>
-  <source src="audio/music.mp3" type="audio/mpeg">
-</audio>
 
-<script>
-  // 建立播放函式
-  function startAudio() {
-    const audio = document.getElementById("bgm");
-    if (!audio) return;
-
-    audio.muted = false; // 確保非靜音
-    audio.play().then(() => {
-      console.log("背景音樂播放成功！");
-      // 成功後移除所有監聽器，避免重複執行
-      ["click", "touchstart", "keydown", "mousemove"].forEach(event => {
-        document.removeEventListener(event, startAudio);
-      });
-    }).catch(err => {
-      console.log("播放仍被阻擋，請點擊頁面：", err);
-    });
-  }
-
-  // 2. 監聽各種互動動作，只要使用者動一下就播放
-  document.addEventListener("click", startAudio);
-  document.addEventListener("touchstart", startAudio); // 手機觸碰
-  document.addEventListener("keydown", startAudio);    // 按下鍵盤
-  document.addEventListener("mousemove", startAudio);  // 滑鼠移動（部分瀏覽器支援）
-
-  // 嘗試直接播放（如果使用者之前來過這網頁且信任度高，有可能成功）
-  startAudio();
-</script>
 </body>
 </html>
