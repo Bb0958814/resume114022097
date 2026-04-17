@@ -48,6 +48,8 @@ body{
     padding: 15px;
     border-radius: 8px;
     transition: background 0.4s ease, transform 0.3s ease;
+    position: relative; /* 確保內容在背景紋理上方 */
+    z-index: 2;
 }
 
 /* 左側文字塊碰到後變：淺納戶色 */
@@ -67,6 +69,7 @@ h2{
     margin-top: 0;
 }
 
+/* 修正：背景線條往後移 */
 .left::before{
     content:"";
     position:absolute;
@@ -82,6 +85,7 @@ h2{
         transparent 10px
     );
     pointer-events:none;
+    z-index: 0; /* 設為底層 */
 }
 
 .profile-img{
@@ -91,6 +95,8 @@ h2{
     object-fit:cover;
     border:4px solid white;
     margin-bottom: 10px;
+    position: relative;
+    z-index: 2; /* 確保照片在紋理上方 */
 }
 
 .skill{ margin:10px 0; text-align:left; }
@@ -121,7 +127,6 @@ button{
 
 button:hover{ background:#0c3a63; }
 
-/* 彈出視窗主背景 */
 .modal{
     display:none;
     position:fixed;
@@ -129,33 +134,29 @@ button:hover{ background:#0c3a63; }
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.5); /* 柔和的半透明背景 */
+    background:rgba(0,0,0,0.5);
     justify-content:center;
     align-items:center;
     z-index: 1000;
 }
 
-/* 彈出視窗內容區塊 - 這裡調整大小 */
 .modal-content{
     background:white;
-    padding:15px; /* 縮小內邊距，讓畫面更緊湊 */
+    padding:15px;
     border-radius:10px;
     width:auto;
-    /* --- 核心修改：限制最大寬度為 400px，讓它看起來精緻小巧，不遮擋過多履歷 --- */
     max-width: 400px; 
     text-align:center;
     position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* 加強陰影，提升層次感 */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* 手機版小螢幕優化：如果螢幕太小，視窗自動放大到 90% 寬度 */
 @media (max-width: 600px) {
     .modal-content {
         max-width: 90%;
     }
 }
 
-/* 圖片樣式 - 保持自動縮放以適應視窗 */
 .about-img {
     max-width: 100%;
     height: auto;
@@ -164,15 +165,14 @@ button:hover{ background:#0c3a63; }
     margin: 0 auto;
 }
 
-/* 關閉按鈕樣式調整 */
 .close{
     position: absolute;
     right: 12px;
     top: 8px;
     cursor:pointer;
     font-size:22px;
-    color: #fff; /* 為了在圖片上清晰可見，改為白色 */
-    background: rgba(0,0,0,0.5); /* 加一層半透明背景，確保在任何顏色的圖片上都能被看見 */
+    color: #fff;
+    background: rgba(0,0,0,0.5);
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -194,9 +194,9 @@ button:hover{ background:#0c3a63; }
 <div class="container">
     <div class="left">
         <img src="images/我.jpg" class="profile-img">
-        <h1>許綺軒</h1>
-        <p>亞洲大學學生</p>
-        <p>學號 114022097</p>
+        <h1 style="position:relative; z-index:2;">許綺軒</h1>
+        <p style="position:relative; z-index:2;">亞洲大學學生</p>
+        <p style="position:relative; z-index:2;">學號 114022097</p>
 
         <div class="section">
             <h2>技能</h2>
@@ -204,13 +204,20 @@ button:hover{ background:#0c3a63; }
             <div class="skill">HTML / CSS <div class="skill-bar"><div class="skill-fill" data-width="70%"></div></div></div>
             <div class="skill">JavaScript <div class="skill-bar"><div class="skill-fill" data-width="60%"></div></div></div>
             <div class="skill">English <div class="skill-bar"><div class="skill-fill" data-width="50%"></div></div></div>
-            <button onclick="animateSkills()">顯示技能</button>
+            <button onclick="animateSkills()">顯示進度</button>
+        </div>
+
+        <div class="section">
+            <h2>目前學習方向</h2>
+            <div class="skill">Python與AI基礎 <div class="skill-bar"><div class="skill-fill" data-width="45%"></div></div></div>
+            <div class="skill">資料結構與演算法 <div class="skill-bar"><div class="skill-fill" data-width="35%"></div></div></div>
+            <div class="skill">小型程式專案實作 <div class="skill-bar"><div class="skill-fill" data-width="30%"></div></div></div>
         </div>
     </div>
 
     <div class="right">
         <div class="section">
-            <div class="header-row">
+            <div class="header-row" style="display:flex; justify-content:space-between; align-items:center;">
                 <h2>基本資料</h2>
                 <button onclick="openAbout()">關於我</button>
             </div>
@@ -260,7 +267,6 @@ function animateSkills(){
 function openAbout(){ document.getElementById("aboutModal").style.display="flex"; }
 function closeAbout(){ document.getElementById("aboutModal").style.display="none"; }
 
-// 點擊視窗外部背景可關閉視窗
 window.onclick = function(event) {
     if (event.target.className === 'modal') {
         event.target.style.display = "none";
